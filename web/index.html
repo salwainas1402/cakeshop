@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cake Shop — Toko Kue</title>
+<style>
+:root{--ink:#33231f;--muted:#81716a;--berry:#a74355;--berry-dark:#813440;--cream:#f7f3ed;--paper:#fffdfa;--line:#eee5dc;--green:#57765c;--shadow:0 12px 36px #3522180b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.55 "Segoe UI",system-ui,sans-serif}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.15;margin:0}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #d59b60;outline-offset:3px}
+header{height:76px;background:var(--paper);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:0 clamp(20px,5vw,72px)}
+.logo{display:flex;align-items:center;gap:12px;color:var(--ink);font:700 23px/1.1 Georgia,"Times New Roman",serif;letter-spacing:-.7px}
+.logo-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:#f5e6e2;color:var(--berry);font:23px "Segoe UI",sans-serif}
+.logo small{display:block;margin-top:4px;color:var(--muted);font:600 11px/1.2 "Segoe UI",system-ui,sans-serif;letter-spacing:1.6px;text-transform:uppercase}
+.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer;background:var(--ink);color:#fff;transition:background .16s,transform .16s}
+.btn:hover{background:var(--berry);transform:translateY(-1px)}
+.btn.alt{background:#f5eeea;color:var(--ink)}.btn.alt:hover{background:#efdfda}
+.hero{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center;padding:54px 24px 44px}
+.hero-copy{padding:12px 0}
+.eyebrow{color:var(--berry);font-size:12px;font-weight:800;letter-spacing:1.7px;text-transform:uppercase}
+.hero h1{max-width:650px;font-size:clamp(38px,5.5vw,64px);letter-spacing:-1.6px;margin:10px 0}
+.hero p{max-width:42ch;color:var(--muted);font-size:17px;margin:12px 0 22px}
+.sun{background:#f0e2d5;border:1px solid var(--line);border-radius:16px;aspect-ratio:1.25;display:grid;place-items:center;padding:8%;box-shadow:var(--shadow)}
+.sun svg{width:100%;max-height:300px;animation:drop .7s ease-out both}
+@keyframes drop{from{transform:translateY(-18px);opacity:0}}
+.menu{max-width:1180px;margin:0 auto 54px;padding:28px;background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.menu-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;margin-bottom:18px}
+.menu h2{font-size:clamp(26px,4vw,34px);margin-top:5px}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 22px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;cursor:pointer;font-weight:600;color:var(--muted)}
+.chip:hover{background:#f5eeea;color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.tile{overflow:hidden;border:1px solid var(--line);border-radius:13px;background:#fff;display:flex;flex-direction:column;padding:0 0 14px}
+.tile .pic{margin:10px 10px 0;border-radius:9px;background:#f5ece6;aspect-ratio:1.25;display:grid;place-items:center;overflow:hidden}
+.tile .pic svg{width:70%}.tile .pic img{width:100%;height:100%;object-fit:cover}
+.tile h3{font-size:19px;margin:13px 13px 4px}.tile p{margin:0 13px 12px;color:var(--muted);font-size:13px;flex:1}
+.buy{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 13px}.buy b{font-size:15px}
+.buy .btn{padding:8px 12px;font-size:13px}
+#veil{position:fixed;inset:0;background:#33231f88;display:none;z-index:4}#veil.on{display:block}
+aside{position:fixed;z-index:5;top:0;right:0;height:100%;width:min(420px,100%);background:var(--paper);padding:26px;overflow:auto;transform:translateX(105%);transition:transform .25s;box-shadow:-12px 0 36px #35221818}
+aside.on{transform:none}
+aside h2{font-size:28px}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.qty button{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:#f5eeea;cursor:pointer;font-weight:700}
+form{display:grid;gap:10px;margin-top:18px}
+input,textarea{border:1px solid #e3d9d0;border-radius:9px;padding:10px 12px;background:#fff;width:100%}
+input:focus,textarea:focus{border-color:var(--berry);outline:2px solid #a7435525}
+.msg{padding:12px 14px;border-radius:9px;background:#eaf1e9;color:var(--green);font-weight:600}.msg.err{background:#fff0ee;color:#a33c36;border:1px solid #e7c2bd}
+footer{padding:28px max(24px,calc((100vw - 1132px)/2));background:var(--paper);border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+footer input{display:inline-block;width:230px;padding:8px 10px;margin:8px}
+footer .btn{padding:8px 12px}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding:38px 20px 30px}.sun{max-width:420px;width:100%;margin:0 auto}.menu{margin:0 14px 36px;padding:20px}.menu-head{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){header{padding:0 16px}.logo{font-size:20px}.hero h1{font-size:40px}.menu{padding:16px}#grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.tile .pic{margin:7px 7px 0}.tile h3{font-size:16px;margin:10px 9px 3px}.tile p{font-size:12px;margin:0 9px 10px}.buy{margin:0 9px;align-items:flex-start;flex-direction:column}.buy .btn{width:100%}footer{padding:24px 16px}footer input{width:100%;margin:8px 0}aside{padding:20px}}
+@media(prefers-reduced-motion:reduce){.sun svg{animation:none}aside{transition:none}html{scroll-behavior:auto}}
+</style></head><body>
+<header><span class="logo"><span class="logo-mark" aria-hidden="true">✿</span><span>Cake Shop<small>Toko kue pilihan</small></span></span><button class="btn alt" id="open">Keranjang <span id="n">0</span></button></header>
+<section class="hero"><div class="hero-copy"><div class="eyebrow">Dibuat dengan sepenuh hati</div><h1>Manisnya momen, dimulai dari sepotong kue.</h1>
+<p>Pilih kue favorit, tentukan tanggalnya. Kami siapkan dengan bahan pilihan untuk menemani momen spesial Anda.</p><a class="btn" href="#menu" style="text-decoration:none;display:inline-block">Jelajahi menu</a></div>
+<div class="sun" id="heroCake"></div></section>
+<section class="menu" id="menu"><div class="menu-head"><div><div class="eyebrow">Pilihan dari dapur kami</div><h2>Menu Cake Shop</h2></div></div><div class="tools" id="chips"></div><div id="grid" aria-live="polite"></div></section>
+<footer><strong style="color:var(--ink)">Cake Shop</strong> · Pesan minimal sehari sebelumnya. Cek status pesanan: <input id="cek" placeholder="Kode, mis. RM-A1B2C3" aria-label="Kode pesanan"> <button class="btn alt" id="cekBtn">Cek pesanan</button> <span id="cekOut"></span></footer>
+<div id="veil"></div>
+<aside id="cart" aria-label="Keranjang"><h2 style="font-size:32px">Keranjang</h2><div id="lines"></div><div class="row"><b>Total</b><b id="total">Rp0</b></div>
+<form id="f"><input name="nama" placeholder="Nama" required><input name="telepon" placeholder="Nomor WhatsApp" inputmode="tel" required>
+<input name="tanggal" type="date" required aria-label="Tanggal ambil atau antar"><textarea name="alamat" rows="2" placeholder="Alamat antar (kosongkan jika ambil sendiri)"></textarea>
+<textarea name="catatan" rows="2" placeholder="Catatan, mis. tulisan di kue"></textarea>
+<div id="out"></div><button class="btn" type="submit">Pesan sekarang</button></form></aside>
+<script>
+const $=s=>document.querySelector(s),rp=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cake=(f,s)=>`<svg viewBox="0 0 200 190" role="img" aria-label="Ilustrasi kue"><ellipse cx="100" cy="176" rx="86" ry="9" fill="#2E0F2622"/>
+<rect x="28" y="96" width="144" height="76" rx="14" fill="${s}"/><rect x="28" y="124" width="144" height="9" fill="${f}"/>
+<rect x="22" y="66" width="156" height="40" rx="20" fill="${f}"/>${[40,72,104,138].map((x,i)=>`<rect x="${x}" y="90" width="20" height="${28+i%2*14}" rx="10" fill="${f}"/>`).join('')}
+<circle cx="100" cy="56" r="11" fill="#D6336C"/><path d="M100 46q4-14 14-16" stroke="#3E7A3A" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`;
+let P=[],C=JSON.parse(localStorage.cart||'{}'),cat='Semua';
+$('#heroCake').innerHTML=cake('#FFB3C6','#FFF3D1');
+const save=()=>localStorage.cart=JSON.stringify(C);
+function draw(){
+ const cats=['Semua',...new Set(P.map(p=>p.kategori))];
+ $('#chips').innerHTML=cats.map(c=>`<button class="chip" aria-pressed="${c==cat}" data-c="${esc(c)}">${esc(c)}</button>`).join('');
+ $('#grid').innerHTML=P.filter(p=>cat=='Semua'||p.kategori==cat).map(p=>`<article class="tile" style="--f:${esc(p.warna)}">
+ <div class="pic">${p.gambar?`<img src="/gambar/${encodeURIComponent(p.gambar)}" alt="${esc(p.nama)}">`:cake(p.warna,p.isi)}</div>
+ <h3>${esc(p.nama)}</h3><p>${esc(p.deskripsi)}</p><div class="buy"><b>${rp(p.harga)}</b><button class="btn" data-add="${p.id}">Tambah</button></div></article>`).join('')||'<p>Belum ada kue di kategori ini.</p>';
+}
+function cart(){
+ const ids=Object.keys(C).filter(i=>P.some(p=>p.id==i));let t=0;
+ $('#lines').innerHTML=ids.map(i=>{const p=P.find(p=>p.id==i);t+=p.harga*C[i];
+  return `<div class="row"><span>${esc(p.nama)}<br><small>${rp(p.harga)}</small></span><span class="qty"><button data-m="${i}" aria-label="Kurangi">−</button> ${C[i]} <button data-p="${i}" aria-label="Tambah">+</button></span></div>`}).join('')||'<p>Keranjang masih kosong. Pilih kue dari menu.</p>';
+ $('#total').textContent=rp(t);$('#n').textContent=ids.reduce((a,i)=>a+C[i],0);save();
+}
+const toggle=on=>{$('#cart').classList.toggle('on',on);$('#veil').classList.toggle('on',on)};
+document.addEventListener('click',e=>{const t=e.target;
+ if(t.dataset.c){cat=t.dataset.c;draw()}
+ if(t.dataset.add){C[t.dataset.add]=(C[t.dataset.add]||0)+1;cart();toggle(true)}
+ if(t.dataset.p){C[t.dataset.p]++;cart()}
+ if(t.dataset.m){if(--C[t.dataset.m]<1)delete C[t.dataset.m];cart()}
+ if(t.id=='open')toggle(true);if(t.id=='veil')toggle(false)});
+$('#f').tanggal.min=new Date().toISOString().slice(0,10);
+$('#f').onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));
+ d.items=Object.entries(C).map(([id,qty])=>({id:+id,qty}));
+ const r=await fetch('/api/pesanan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}),j=await r.json();
+ $('#out').innerHTML=r.ok?`<div class="msg">Pesanan diterima. Kode: ${j.kode} · ${rp(j.total)}. Simpan kodenya untuk cek status.</div>`:`<div class="msg err">${esc(j.error)}</div>`;
+ if(r.ok){C={};cart();e.target.reset()}};
+$('#cekBtn').onclick=async()=>{const r=await fetch('/api/pesanan/'+encodeURIComponent($('#cek').value.trim())),j=await r.json();
+ $('#cekOut').textContent=r.ok?`Status: ${j.status} · ambil/antar ${j.tanggal}`:j.error};
+fetch('/api/produk').then(r=>r.json()).then(d=>{P=d;draw();cart()});
+</script></body></html>

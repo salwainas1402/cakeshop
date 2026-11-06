@@ -1,0 +1,7 @@
+toko.db
+*.db
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]

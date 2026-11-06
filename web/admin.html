@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f3ed">
+<title>Dashboard Admin — Cake Shop</title>
+<style>
+:root{--ink:#33231f;--muted:#81716a;--berry:#a74355;--berry-dark:#813440;--cream:#f7f3ed;--paper:#fffdfa;--line:#eee5dc;--green:#57765c;--shadow:0 12px 36px #3522180b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.55 "Segoe UI",system-ui,sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:3px solid #d59b60;outline-offset:3px}
+.topbar{height:76px;background:var(--paper);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5vw,72px)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:#f5e6e2;color:var(--berry);font-size:23px}
+.brand-name{font-family:Georgia,serif;font-size:23px;font-weight:700;letter-spacing:-.7px}
+.brand-sub{display:block;color:var(--muted);font-size:11px;letter-spacing:1.6px;text-transform:uppercase}
+.top-link{font-size:14px;font-weight:600;text-decoration:none;color:var(--muted)}
+main{max-width:1180px;margin:0 auto;padding:42px 24px 72px}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:26px}
+.eyebrow{color:var(--berry);font-size:12px;font-weight:800;letter-spacing:1.7px;text-transform:uppercase}
+h1,h2,h3,p{margin-top:0}
+h1,h2{font-family:Georgia,"Times New Roman",serif}
+h1{font-size:clamp(30px,4vw,42px);line-height:1.12;margin:7px 0}
+.intro{margin:0;color:var(--muted)}
+.button{border:0;border-radius:10px;padding:10px 16px;background:var(--ink);color:#fff;font-weight:700;transition:background .16s,transform .16s}
+.button:hover{background:var(--berry);transform:translateY(-1px)}
+.button.secondary{background:#f5eeea;color:var(--ink)}
+.button.secondary:hover{background:#efdfda}
+.button.danger{background:#fff0ee;color:#a33c36}
+.button.danger:hover{background:#f8dfdb}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+.stat,.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.stat{padding:18px 20px}
+.stat-label{color:var(--muted);font-size:13px;font-weight:600}
+.stat-value{margin-top:5px;font-family:Georgia,serif;font-size:30px;font-weight:700}
+.panel{padding:24px;margin-top:20px}
+.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px}
+.panel-head h2{font-size:25px;margin:0}
+.panel-head p{margin:5px 0 0;color:var(--muted);font-size:13px}
+.count{background:#f5e6e2;color:var(--berry-dark);border-radius:99px;padding:4px 10px;font-size:12px;font-weight:700}
+.order-list{display:grid;gap:12px}
+.order{display:grid;grid-template-columns:minmax(150px,1fr) minmax(180px,1.4fr) minmax(130px,.8fr) auto;align-items:center;gap:16px;border:1px solid var(--line);border-radius:12px;padding:15px}
+.order-code{font-weight:800;letter-spacing:.3px}
+.order-meta,.order-items{color:var(--muted);font-size:13px}
+.order-items{color:var(--ink);margin-top:4px}
+.order-total{font-weight:800}
+.order select{border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:#fff;color:var(--ink)}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.product{overflow:hidden;border:1px solid var(--line);border-radius:13px;background:#fff}
+.product-photo{height:150px;background:#f5ece6;display:grid;place-items:center;overflow:hidden;color:#a3786b;font-size:36px}
+.product-photo img{width:100%;height:100%;object-fit:cover}
+.product-info{padding:14px}
+.product-title{display:flex;justify-content:space-between;gap:10px;align-items:start}
+.product-title h3{margin:0;font-size:16px}
+.product-price{font-weight:800;white-space:nowrap}
+.product-category{margin:5px 0 13px;color:var(--muted);font-size:13px}
+.product-actions{display:flex;gap:8px}
+.product-actions .button{padding:8px 10px;font-size:12px;flex:1}
+.badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;background:#eaf1e9;color:var(--green);white-space:nowrap}
+.badge.off{background:#f3efeb;color:var(--muted)}
+.product-form{border-top:1px solid var(--line);margin-top:24px;padding-top:22px}
+.product-form h3{font-family:Georgia,serif;font-size:21px;margin:0 0 5px}
+.form-note{color:var(--muted);font-size:13px;margin:0 0 16px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.field{display:grid;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;font-weight:700}
+.field input,.field textarea{width:100%;border:1px solid #e3d9d0;border-radius:9px;background:#fff;padding:10px 12px;color:var(--ink)}
+.field input:focus,.field textarea:focus{border-color:var(--berry);outline:2px solid #a7435525}
+.field input[type=file]{padding:8px}
+.form-bottom{display:flex;align-items:center;gap:14px;margin-top:16px}
+.preview{display:none;width:72px;height:58px;object-fit:cover;border-radius:9px;border:1px solid var(--line)}
+.preview.on{display:block}
+.message{color:var(--green);font-size:13px;font-weight:700}
+.message.error{color:#a33c36}
+.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+.login-wrap{max-width:430px;margin:70px auto}
+.login-wrap .panel{padding:30px}
+.login-wrap h1{font-size:32px}
+.login-form{display:grid;gap:12px;margin-top:20px}
+.login-form input{border:1px solid #e3d9d0;border-radius:9px;padding:12px}
+@media(max-width:760px){main{padding:30px 16px 52px}.topbar{padding:0 18px}.stats{gap:9px}.stat{padding:14px}.stat-value{font-size:25px}.order{grid-template-columns:1fr 1fr}.order select{width:100%}.panel{padding:18px}}
+@media(max-width:480px){.stats{grid-template-columns:1fr}.stat{display:flex;justify-content:space-between;align-items:center}.stat-value{margin:0}.page-head{align-items:flex-start;flex-direction:column}.order{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.product-grid{grid-template-columns:1fr 1fr}.product-photo{height:120px}.product-actions{flex-direction:column}.product-title{display:block}.product-price{margin-top:4px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">✿</span><span class="brand-name">Cake Shop<span class="brand-sub">Ruang pengelola</span></span></a>
+  <a class="top-link" href="/">← Lihat toko</a>
+</header>
+<main id="app" aria-live="polite"></main>
+<script>
+const $=s=>document.querySelector(s);
+const rp=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const api=(u,m='GET',b)=>fetch(u,{method:m,headers:b?{'Content-Type':'application/json'}:{},body:b?JSON.stringify(b):undefined});
+const statuses=['baru','diproses','siap','selesai','batal'];
+
+async function load(){
+  const response=await api('/api/admin/pesanan');
+  if(response.status===401){showLogin();return}
+  if(!response.ok)throw new Error('Pesanan tidak dapat dimuat.');
+  const orders=await response.json();
+  const productsResponse=await api('/api/produk?semua=1');
+  if(!productsResponse.ok)throw new Error('Produk tidak dapat dimuat.');
+  const products=await productsResponse.json();
+  renderDashboard(orders,products);
+}
+function showLogin(){
+  $('#app').innerHTML=`<section class="login-wrap"><div class="eyebrow">Area khusus</div><div class="panel"><h1>Selamat datang kembali.</h1><p class="intro">Masuk untuk mengelola pesanan dan menu Cake Shop.</p><form class="login-form" id="login-form"><input id="password" type="password" placeholder="Password admin" autocomplete="current-password" required><button class="button" type="submit">Masuk ke dashboard</button><span class="message error" id="login-error" role="status"></span></form></div></section>`;
+  $('#login-form').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const response=await api('/api/admin/login','POST',{password:$('#password').value});
+    if(response.ok){load().catch(showLoadError);return}
+    const result=await response.json();
+    $('#login-error').textContent=result.error||'Tidak dapat masuk.';
+  });
+}
+function renderDashboard(orders,products){
+  const newOrders=orders.filter(order=>order.status==='baru').length;
+  const available=products.filter(product=>product.tersedia).length;
+  $('#app').innerHTML=`
+    <div class="page-head"><div><div class="eyebrow">Ringkasan toko</div><h1>Dashboard</h1><p class="intro">Kelola pesanan dan sajian Cake Shop hari ini.</p></div><button class="button secondary" id="logout">Keluar</button></div>
+    <section class="stats" aria-label="Ringkasan">
+      <div class="stat"><span class="stat-label">Total pesanan</span><span class="stat-value">${orders.length}</span></div>
+      <div class="stat"><span class="stat-label">Perlu diproses</span><span class="stat-value">${newOrders}</span></div>
+      <div class="stat"><span class="stat-label">Produk tersedia</span><span class="stat-value">${available}</span></div>
+    </section>
+    <section class="panel"><div class="panel-head"><div><h2>Pesanan</h2><p>Pantau dan perbarui status pesanan pelanggan.</p></div><span class="count">${orders.length} pesanan</span></div>
+      ${orders.length?`<div class="order-list">${orders.map(order=>`<article class="order"><div><div class="order-code">${esc(order.kode)}</div><div class="order-meta">${esc(order.nama)} · ${esc(order.telepon)}<br>${esc(order.tanggal)}</div></div><div><div class="order-items">${order.items.map(item=>`${esc(item.nama)} × ${item.qty}`).join(', ')}</div><div class="order-meta">${esc(order.alamat||'Ambil sendiri')}${order.catatan?` · ${esc(order.catatan)}`:''}</div></div><div class="order-total">${rp(order.total)}</div><select aria-label="Status pesanan ${esc(order.kode)}" data-order="${order.id}" data-previous="${esc(order.status)}">${statuses.map(status=>`<option value="${status}" ${status===order.status?'selected':''}>${status[0].toUpperCase()+status.slice(1)}</option>`).join('')}</select></article>`).join('')}</div>`:'<div class="empty">Belum ada pesanan masuk.</div>'}
+    </section>
+    <section class="panel"><div class="panel-head"><div><h2>Menu produk</h2><p>Foto produk tampil langsung di etalase toko.</p></div><span class="count">${products.length} produk</span></div>
+      ${products.length?`<div class="product-grid">${products.map(product=>`<article class="product"><div class="product-photo">${product.gambar?`<img src="/gambar/${encodeURIComponent(product.gambar)}" alt="${esc(product.nama)}">`:'🍰'}</div><div class="product-info"><div class="product-title"><h3>${esc(product.nama)}</h3><span class="badge ${product.tersedia?'':'off'}">${product.tersedia?'Tersedia':'Disembunyikan'}</span></div><div class="product-category">${esc(product.kategori)} · <span class="product-price">${rp(product.harga)}</span></div><div class="product-actions"><button class="button secondary" data-toggle="${product.id}">${product.tersedia?'Sembunyikan':'Tampilkan'}</button><button class="button danger" data-delete="${product.id}">Hapus</button></div></div></article>`).join('')}</div>`:'<div class="empty">Belum ada produk di menu.</div>'}
+      <form class="product-form" id="product-form"><h3>Tambah produk</h3><p class="form-note">Isi detail kue dan pilih foto dari perangkat. Foto JPG, PNG, atau WEBP hingga 5 MB.</p>
+        <div class="form-grid">
+          <div class="field"><label for="nama">Nama produk</label><input id="nama" name="nama" placeholder="Contoh: Tart Cokelat" required></div>
+          <div class="field"><label for="kategori">Kategori</label><input id="kategori" name="kategori" placeholder="Contoh: Kue Tart" value="Kue Tart"></div>
+          <div class="field"><label for="harga">Harga (Rp)</label><input id="harga" name="harga" type="number" min="1" step="1000" placeholder="150000" required></div>
+          <div class="field"><label for="gambar">Foto produk</label><input id="gambar" name="gambar" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"><span class="form-note" style="margin:0">Opsional — ilustrasi warna digunakan bila kosong.</span></div>
+          <div class="field full"><label for="deskripsi">Deskripsi</label><textarea id="deskripsi" name="deskripsi" rows="2" placeholder="Ceritakan rasa atau bahan unggulannya"></textarea></div>
+        </div>
+        <div class="form-bottom"><img id="preview" class="preview" alt="Pratinjau foto produk"><button class="button" type="submit">Simpan produk</button><span class="message" id="form-message" role="status"></span></div>
+      </form>
+    </section>`;
+  $('#logout').addEventListener('click',async()=>{await api('/api/admin/logout','POST');load().catch(showLoadError)});
+  $('#product-form').addEventListener('submit',addProduct);
+  $('#gambar').addEventListener('change',previewImage);
+  document.querySelectorAll('[data-order]').forEach(select=>select.addEventListener('change',async()=>{
+    const result=await api(`/api/admin/pesanan/${select.dataset.order}`,'PATCH',{status:select.value});
+    if(!result.ok){select.value=select.dataset.previous;return}
+    select.dataset.previous=select.value;
+    load().catch(showLoadError);
+  }));
+  document.querySelectorAll('[data-toggle]').forEach(button=>button.addEventListener('click',async()=>{
+    const result=await api(`/api/admin/produk/${button.dataset.toggle}`,'PATCH');
+    if(result.ok)load().catch(showLoadError);
+  }));
+  document.querySelectorAll('[data-delete]').forEach(button=>button.addEventListener('click',async()=>{
+    if(!confirm('Hapus produk ini dari menu?'))return;
+    const result=await api(`/api/admin/produk/${button.dataset.delete}`,'DELETE');
+    if(result.ok)load().catch(showLoadError);
+  }));
+}
+function previewImage(){
+  const file=$('#gambar').files[0],preview=$('#preview');
+  if(!file){preview.removeAttribute('src');preview.classList.remove('on');return}
+  preview.src=URL.createObjectURL(file);
+  preview.classList.add('on');
+}
+async function addProduct(event){
+  event.preventDefault();
+  const form=event.currentTarget,button=form.querySelector('button[type=submit]'),message=$('#form-message');
+  button.disabled=true;message.className='message';message.textContent='Menyimpan...';
+  try{
+    const response=await fetch('/api/admin/produk',{method:'POST',body:new FormData(form)});
+    const result=await response.json();
+    if(!response.ok){message.className='message error';message.textContent=result.error||'Produk gagal disimpan.';button.disabled=false;return}
+    load().catch(showLoadError);
+  }catch(error){
+    message.className='message error';message.textContent='Koneksi bermasalah. Produk belum tersimpan.';button.disabled=false;
+  }
+}
+function showLoadError(error){
+  $('#app').innerHTML=`<section class="panel"><p class="message error">${esc(error.message||'Terjadi kesalahan saat memuat dashboard.')}</p><button class="button" onclick="load().catch(showLoadError)">Coba lagi</button></section>`;
+}
+load().catch(showLoadError);
+</script>
+</body>
+</html>
